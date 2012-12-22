@@ -1,0 +1,9 @@
+Zombies Versus Unicorns
+-----------------------
+
+__Zombies versus Unicorns is a real life epic battle between man & machine and
+the mystic forces surrounding them.__
+
+Zombies versus Unicorns uses a Binary Search Fault Localisation (BSFL)
+algorithm to quickly (O(log n)) identify which line in your
+++$MYVIMRC++ is causing an unwanted (or even a desired) behaviour.

@@ -1,0 +1,94 @@
+*zombies_vs_unicorns.txt*	For Vim version 7.3	Last change: 2012-12-22
+
+
+			VIM REFERENCE MANUAL	by Barry Arthur
+
+
+Help on using zombies_vs_unicorns                         *zombies_vs_unicorns*
+
+1. Introduction				|zombies_vs_unicorns-intro|
+2. Configuration			|zombies_vs_unicorns-configuration|
+3. Other				|zombies_vs_unicorns-other|
+
+==============================================================================
+ 1. INTRODUCTION                                    *zombies_vs_unicorns-intro*
+
+Zombies versus Unicorns is a real life epic battle between man & machine and
+the mystic forces surrounding them.
+
+Zombies versus Unicorns uses a Binary Search Fault Localisation (BSFL)
+algorithm to quickly (O(log n)) identify which line in your $MYVIMRC is causing
+an unwanted (or even a desired) behaviour.
+
+To start the hunt, type:
+<
+  :ZombiesVsUnicorns
+>
+
+You will be presented with a fresh instance of Vim. Decide if this instance is
+Rainbows and Unicorns or Hideous Zombies. Once you know what you're dealing
+with, tell Vim with either:
+>
+  :Unicorns
+<
+or
+>
+  :Zombies
+<
+
+This process will continue until the line responsible for your grief (or joy)
+has been located and printed.
+
+==============================================================================
+ 2. CONFIGURATION                           *zombies_vs_unicorns-configuration*
+
+The following options are user configurable:
+
+|'zombies_vs_unicorns_delete_backup_vimrc'|	0
+
+See below for descriptions and default values for these options.
+
+------------------------------------------------------------------------------
+                                    *'zombies_vs_unicorns_delete_backup_vimrc'*
+Values: numeric                                                              ~
+Default: 0                                                                   ~
+
+Removes the backup copy of the $MYVIMRC file after the fault localisation has
+completed.
+
+
+==============================================================================
+ 3. OTHER                                           *zombies_vs_unicorns-other*
+
+Fault localisation is a nontrivial procedure in complex systems such as Vim.
+Zombies versus Unicorns attempts to locate faults in your $MYVIMRC only. If you
+cannot locate the source of your fault with this tool, consider these other
+debugging steps:
+
+1. vim -u NONE -N
+
+If the problem is resolved then there is a fault with your configuration --
+either in your $MYVIMRC or within a plugin. To identify which, run:
+
+2. vim -u NORC -N
+
+If the problem is resolved then the fault is in your $MYVIMRC. This is when you
+should run Zombies versus Unicorns. If you have already and it didn't help,
+that sucks. :-( Perhaps you could let bairui know on freenode's #vim...
+
+If the problem persists then the fault lies within one of your plugins. You
+have several choices at this stage:
+
+* If you are using VAM, check its documentation for its built-in plugin
+  bisection tool.
+
+* If you're using Raimondi's fork of pathogen, use the :Biscuit command.
+
+* Otherwise, you can manually partition your plugin space by hand, moving half
+  of your plugins aside and testing if the fault persists. If it still exists,
+  then the fault remains in the half that you kept. If the problem disappeared,
+  then the fault lies in the half you moved aside. By halving the appropriate
+  set each time you will quickly (though laboriously) locate the faulty plugin.
+
+
+ vim:tw=78:ts=8:ft=help:norl:
