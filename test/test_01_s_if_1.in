@@ -1,0 +1,7 @@
+1 if 1 | else | endif
+1 if 1 | if 0 | else | endif | else | endif
+1 if 0 | elseif 1 | endif
+1 if 0 | elseif 1 | else | endif
+1 if 0 | elseif 0 | elseif 1 | endif
+1 if 0 | elseif 0 | elseif 0 | else | endif
+1 if 1  else  endif

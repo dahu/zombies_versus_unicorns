@@ -1,0 +1,70 @@
+; Vim :ex Parser
+; Barry Arthur, 23 Dec 2012
+; version 0.0 - Dev
+
+.skip_white = false
+.namespace = 'ex'
+.parser_name = 'ex#parser'
+.root_element = 'ex_'
+
+ex_ ::= ex eof
+ex ::= ex_commands*
+ex_commands ::= whitespace | (block_command w) | non_block_command
+
+block_command ::= s_if
+non_block_command ::= (s_lets w ex)
+
+s_if ::= c 'if' S expr1 w ex s_elseif* s_else? s_endif
+s_elseif ::= c 'elsei\%[f]' S expr1 w ex
+s_else ::= c 'el\%[se]' w ex
+s_endif ::= c 'en\%[dif]'
+
+s_lets ::= s_let_ass | s_let_list
+s_let_cmd ::= c 'let'
+s_let_ass ::= s_let_cmd S s_let_var s ass_op s expr1
+s_let_list ::= s_let_cmd (S s_let_var_name)*
+
+s_let_var ::= s_let_var_listref | s_let_var_env | s_let_var_reg | s_let_var_opt | s_let_var_name_list | s_let_var_name
+
+s_let_var_name ::= ident
+s_let_var_listref ::= ident listref
+s_let_var_env ::= envvar
+s_let_var_reg ::= regval
+s_let_var_opt ::= '&' ('l:' | 'g:')? '\w\+'
+s_let_var_name_list ::= '\[' s s_let_var_name (s ',' s s_let_var_name)* (s ';' s s_let_var_name)? s '\]'
+
+ass_op ::=  '=' | '+=' | '-=' | '.='
+
+
+; replace this section with vimpeg-parser-viml - dummy values for now
+;---------------------------------------------
+expr1 ::= '\d\+'
+ident ::= '\w\+'
+listref         ::=  '\[' s exprange s '\]'
+exprange        ::=  expr1 (s ':' s expr1)?
+envvar          ::=  '\$\w\+'
+regval          ::=  '@[a-z0-9_/.+*"'']'
+;---------------------------------------------
+
+c ::= ':'* s
+
+whitespace ::= (W | comment_to_eol)+
+
+; Optional space
+s ::= ws*
+
+; Mandatory space
+S ::= ws+
+
+; ws<bar><nlws>   or   <nlws>
+w ::= (s '|' W*) | W+
+
+; spaces, tabs and newlines
+W ::= '[\x20\t\n\r]'
+
+; spaces and tabs
+ws ::= '\s'
+
+comment_to_eol ::= '"' (!'\n' '.')+
+
+eof ::= ! '.'

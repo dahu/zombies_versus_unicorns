@@ -1,0 +1,32 @@
+" Generic driver for all runVimTests
+" Point your actual .vim files at this driver
+" Name your test files as: test_##_<elem>_# files
+" where: <elem> is a valid non-terminal in the associated vimpeg grammar
+
+"NOTE to Raimondi: We could generate this file later - there are only two
+"project-specific lines (the source and the reference to g:<proj>#parser)
+
+function! Tester(testexpr, expr)
+  echo 'Line: '.printf('%3d',line('.')).' - Symbol: '.a:testexpr.', test: '.a:expr
+  let result = g:ex#parser.GetSym(a:testexpr).match(a:expr)
+  echo result
+  if (result['is_matched'] == 0) && (type(result['errmsg']) == type('')) && result['errmsg'] != ''
+    echo result['errmsg'] . '-->' . a:expr . '<--'
+    return 0
+  endif
+  if result['is_matched'] == 1
+    return result['pos'] == len(a:expr)
+  else
+    return 0
+  endif
+endfunction
+
+"source ../autoload/ex.vim
+let testname = expand('<sfile>:p:t:r')
+let testexpr = matchstr(testname, '^test_\d\+_\zs.\{-}\ze_\d\+')
+echo testexpr
+exe "edit " . testname . '.in'
+exe '%s/\([01]\) \(.*\)/\=Tester(testexpr, submatch(2))." ".submatch(2)/'
+exe "write " . testname . ".out"
+quit!
+" vim: set ft=vim:
