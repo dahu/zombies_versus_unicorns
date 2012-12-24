@@ -41,7 +41,8 @@ ass_op ::=  '=' | '+=' | '-=' | '.='
 expr1 ::= '\d\+'
 ident ::= '\w\+'
 listref         ::=  '\[' s exprange s '\]'
-exprange        ::=  expr1 (s ':' s expr1)?
+;exprange        ::=  expr1 (s ':' s expr1)?
+exprange        ::=  (expr1? s ':' s expr1?) | expr1
 envvar          ::=  '\$\w\+'
 regval          ::=  '@[a-z0-9_/.+*"'']'
 ;---------------------------------------------

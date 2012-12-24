@@ -1,4 +1,4 @@
-" Parser compiled on Sun 23 Dec 2012 10:18:59 PM CST,
+" Parser compiled on Mon 24 Dec 2012 05:59:34 AM CST,
 " with VimPEG v0.2 and VimPEG Compiler v0.1
 " from "ex.vimpeg"
 " with the following grammar:
@@ -46,7 +46,8 @@
 " expr1 ::= '\d\+'
 " ident ::= '\w\+'
 " listref         ::=  '\[' s exprange s '\]'
-" exprange        ::=  expr1 (s ':' s expr1)?
+" ;exprange        ::=  expr1 (s ':' s expr1)?
+" exprange        ::=  (expr1? s ':' s expr1?) | expr1
 " envvar          ::=  '\$\w\+'
 " regval          ::=  '@[a-z0-9_/.+*"'']'
 " ;---------------------------------------------
@@ -123,7 +124,7 @@ call s:p.e('\w\+',
       \{'id': 'ident'})
 call s:p.and([s:p.e('\['), 's', 'exprange', 's', s:p.e('\]')],
       \{'id': 'listref'})
-call s:p.and(['expr1', s:p.maybe_one(s:p.and(['s', s:p.e(':'), 's', 'expr1']))],
+call s:p.or([s:p.and([s:p.maybe_one('expr1'), 's', s:p.e(':'), 's', s:p.maybe_one('expr1')]), 'expr1'],
       \{'id': 'exprange'})
 call s:p.e('\$\w\+',
       \{'id': 'envvar'})
